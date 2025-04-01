@@ -3,15 +3,42 @@ body {
   background-color: #f0f0f0;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
 }
 
 h1 {
   color: #333;
 }
-#result .green {
+.green {
   color: #2ecc71;
 }
 
-#result .red {
+.red {
   color: #e74c3c;
+}
+
+.contenedor {
+  background-color: #e1f3e9;
+  padding:40px;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+#countdown {
+  color: red
+}
+
+#restart {
+  width: 120px;
+  height: 30px;
+  border: none;
+  background-color: rgba(24, 118, 241, 0.952);
+  color: white;
+  cursor: pointer;
 }

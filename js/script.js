@@ -1,44 +1,51 @@
-//El contador de 5s tiene que aparecer en el div countdow
-//En result pondremos los numeros tanto del jugsdor como de la maquina
-//Tambien saldra el mensaje de Enhorabuena o de lo siento en result
-//el boton con id restart sera utilizado para reiniciar el juego
-const userInput = document.getElementById('userInput');
-const countdow = document.getElementById('countdow');
-const result = document.getElementById('result');
-let randomNumber;
 
-    function cuentaAtras(from, to) {
-        let cuenta = from;
-        let tiempo = setInterval(function(){
-            if (cuenta == to) {
+function juegoBomba(){
+const userInput = document.getElementById('userInput');
+const countdown = document.getElementById('countdown');
+const result = document.getElementById('result');
+const btnrestart = document.getElementById('restart')
+let numeroMaquina = Math.floor(Math.random() * 3) + 1;
+
+    function cuentaAtras(numeroUsuario) {
+        countdown.innerHTML = 'Cuenta atrás: ';
+        let contador = 5;
+
+        const tiempo = setInterval(() => {
+            countdown.innerHTML =`Cuenta atrás: ${contador}`;
+            contador --;
+              if (contador === 0) {
                 clearInterval(tiempo);
+                countdown.innerHTML = '';
+                result.innerHTML =`<h3>Tu numero es el ${numeroUsuario} | El número correcto es ${numeroMaquina}</h3><br>`
+                result.innerHTML += numeroUsuario == numeroMaquina ? '<h2 class="green"><strong>¡Has Salvado al mundo!</strong></h2>' : `<h2 class="red"><strong>¡Ups!¡La bomba ha estallado.!</strong></h2>`;
             }
-            cuenta --;
         }, 1000);   
     }
-    cuentaAtras(5,0)
 
-    userInput.addEventListener('keydown', (event) => { 
-        if (event.keyCode === 13) {
-            cuentaAtras()
+    function confirmarSeleccion() {
+        const numeroUsuario = parseInt(userInput.value);
+          if (![1, 2, 3].includes(numeroUsuario)) {
+            alert('Introduce un número entre 1 y 3')
+            return
         }
-    })
 
-    document.addEventListener('click', (event) => {
-        if (event.target !== userInput) {
-            cuentaAtras()
+        cuentaAtras(numeroUsuario);
+        document.removeEventListener('click', confirmarSeleccion);
+        userInput.removeEventListener('keypress', detectarEnter);
+    }
+    function detectarEnter(event){
+        if (event.key ==='Enter') {
+            confirmarSeleccion();
         }
-    })
+    }
 
-    const number = new Promise ((resove) => {
-        setTimeout (() =>{
-            randomNumber = Math.floor(Math.random() * 3) + 1;
-        }, 5000);
-    })
+    function reiniciar() {
+        location.reload()
+    }
 
+    document.addEventListener('click', confirmarSeleccion);
+    userInput.addEventListener('keypress', detectarEnter);
+    btnrestart.addEventListener('click', reiniciar);
+}
 
-    
-
-
-//Contador
-
+document.addEventListener('DOMContentLoaded', juegoBomba);
